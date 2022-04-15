@@ -1,0 +1,8 @@
+- picksystem checken of het vakje al bezet is
+- update van vakje
+- detector maken die alle winnende posities elke ronde checkt
+- winnaar benoemen op basis van resulataten detector
+- yeahh cool effect misschien met time.sleep()  -- LAAT DIT EXPONENTIEEL TOENEMEN MET EEN LEUKE FUNCTIE
+- Effect op board van dat de vakjes randomizen van ascii char
+- opnieuw spelen
+- veldpercentage updaten van iedere speler
