@@ -1,17 +1,15 @@
-import numpy as np
-
-board1 = [' ']*10
-
+#board1 = [' ']*10
+board2 = ['z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
 
 
 #functies
-def boardmaker(board):
+def boardlayout(board):
     #making a board/layout of the values in variable board1 from index 1-9
-    print(board[1]+'|'+board[2]+'|'+board[3])
-    print('-|-|-')
-    print(board[4]+'|'+board[5]+'|'+board[6])
-    print('-|-|-')
-    print(board[7]+'|'+board[8]+'|'+board[9])
+    print(board[1],'|',board[2],'|',board[3])
+    print('- | - | -')
+    print(board[4],'|',board[5],'|',board[6])
+    print('- | - | -')
+    print(board[7],'|',board[8],'|',board[9])
 
 
 def playerchoose():
@@ -31,31 +29,25 @@ def playerchoose():
 player1, player2 = playerchoose()
 
 
-def detector():
-    #should detect if there is a winner or not
-    pass
+def pickcell(board):
+    #asks and returns the cell the player wants to mutate
 
-def takingturns(board):
-    #makes sure every player takes its turn 
-    for i in range(9):
-        if i%2 == 0:
-            print('Player 1, do your move. ')
-            picksystem(board,player1)
-        
-        else:
-            print('Player 2, move. ')
-            picksystem(board,player2)
-        
+    #choosing the row with a while loop
+    row = input('Which row do you want to mutate? (1-3)')
 
-def picksystem(board, player):
+    while row.isnumeric() == False or int(row) not in range(1,4):
+        row = input('Which row do you want to mutate? (1-3)')
     
-    cell = ' '
-    #choosing the cell
-    
-    row = input('Which row do you want to mutate? ')
-    column = input('Which column do you want to mutate? ')
-    
-    
+    #choosing the column with a while loop
+    column = input('Which column do you want to mutate? (1-3)')
+
+    while column.isnumeric() == False or int(column) not in range(1,4):
+        column = input('Which column do you want to mutate? (1-3)')
+
+    row = int(row)
+    column = int(column)
+
+    #converting the rows and columns into cells in the board
     if row == 1:
         cell = board[column]
     
@@ -64,24 +56,60 @@ def picksystem(board, player):
 
     elif row == 3:
         cell = board[column+6]
-
-    return cell
-
-
-
-
     
-'''
-    while cell != ' ':
-        print('That cell is already in use. Try again. ')
-        row = input('Which row do you want to mutate? ')
-        column = input('Which column do you want to mutate? ')
-        if row == 1:
-            cell = board[column]
+    celindex = (board.index(cell))
 
-        elif row == 2:
-            cell = board[column+3]
+    return celindex, cell
 
-        elif row == 3:
-            cell = board[column+6]
-'''
+
+def boxchecker(board, players, player):
+    #checks if the cell picked is empty and can be mutated, if not, pickcell
+    celindex, cell = pickcell(board)
+    
+    #nog ff fixen dat je niet twee keer op een gemuteerd vakje zit
+    while cell not in board:
+        celindex, cell = pickcell(board)
+    
+    board[celindex] = player
+
+    return board
+
+def detector(board,player):
+    #should detect if there is a winner or not
+
+    for i in board[1:]:
+        #opnieuw
+        if board[i] == board[i+1] and board[i] == board[i+2]:
+            print(f'{player} wins')
+            return 1
+        elif board[i] == board[i+3] and board[i] == board[i+6]:
+            print(f'{player} wins')
+            return 1
+        elif board[i] == board[i+4] and board[i] == board[i+8]:
+            print(f'{player} wins')
+            return 1
+    return 0
+
+
+
+def playing(board):
+
+    player1, player2 = playerchoose()
+
+    boardlayout(board)
+    
+    for i in range(10): 
+        if i%2 == 0:
+            print('Player 1, do your move. ')
+            nb = boxchecker(board2, (player1, player2), player1)
+            boardlayout(nb)
+            detector(board2, player1)
+        
+        else:
+            print('Player 2, move. ')
+            nb = boxchecker(board2, (player1, player2), player2)
+            boardlayout(nb)
+            detector(board2, player2)
+        
+
+playing(board2)
