@@ -1,0 +1,12 @@
+
+
+def takingturns(board):
+    #makes sure every player takes its turn 
+    for i in range(9):
+        if i%2 == 0:
+            print('Player 1, do your move. ')
+            pickcell(board,player1)
+        
+        else:
+            print('Player 2, move. ')
+            pickcell(board,player2)
