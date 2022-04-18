@@ -26,23 +26,23 @@ def playerchoose():
         player2 = 'X'
     return (player1, player2)
 
-#player1, player2 = playerchoose()
+player1, player2 = playerchoose()
 
 
 def pickcell(board):
     #asks and returns the cell the player wants to mutate
 
     #choosing the row with a while loop
-    row = input('Which row do you want to mutate? ')
+    row = input('Which row do you want to mutate? (1-3)')
 
-    while row.isnumeric() == False and row not in range(1,4):
-        row = input('Which row do you want to mutate? ')
+    while row.isnumeric() == False or int(row) not in range(1,4):
+        row = input('Which row do you want to mutate? (1-3)')
     
     #choosing the column with a while loop
-    column = input('Which column do you want to mutate? ')
+    column = input('Which column do you want to mutate? (1-3)')
 
-    while column.isnumeric() == False and column not in range(1,4):
-        column = input('Which column do you want to mutate? ')
+    while column.isnumeric() == False or int(column) not in range(1,4):
+        column = input('Which column do you want to mutate? (1-3)')
 
     row = int(row)
     column = int(column)
@@ -62,24 +62,34 @@ def pickcell(board):
     return celindex, cell
 
 
-def boxchecker(board):
+def boxchecker(board, players, player):
     #checks if the cell picked is empty and can be mutated, if not, pickcell
     celindex, cell = pickcell(board)
-
-    while cell != int:
+    
+    #nog ff fixen dat je niet twee keer op een gemuteerd vakje zit
+    while cell not in board:
         celindex, cell = pickcell(board)
     
-    return celindex, cell
-
-
-def mutator(board, player):
-    #mutates the board for the given cell
-
-    celindex = boxchecker(board)
-
     board[celindex] = player
-    
+
     return board
+
+def detector(board,player):
+    #should detect if there is a winner or not
+
+    for i in board[1:]:
+        #opnieuw
+        if board[i] == board[i+1] and board[i] == board[i+2]:
+            print(f'{player} wins')
+            return 1
+        elif board[i] == board[i+3] and board[i] == board[i+6]:
+            print(f'{player} wins')
+            return 1
+        elif board[i] == board[i+4] and board[i] == board[i+8]:
+            print(f'{player} wins')
+            return 1
+    return 0
+
 
 
 def playing(board):
@@ -87,27 +97,19 @@ def playing(board):
     player1, player2 = playerchoose()
 
     boardlayout(board)
-
-    for i in range(9):
+    
+    for i in range(10): 
         if i%2 == 0:
             print('Player 1, do your move. ')
-            mutator(board, player1)
-            boardlayout(board2)
+            nb = boxchecker(board2, (player1, player2), player1)
+            boardlayout(nb)
+            detector(board2, player1)
         
         else:
             print('Player 2, move. ')
-            mutator(board, player2)
-            boardlayout(board2)
-    
-    
+            nb = boxchecker(board2, (player1, player2), player2)
+            boardlayout(nb)
+            detector(board2, player2)
+        
 
 playing(board2)
-
-
-
-
-def detector():
-    #should detect if there is a winner or not
-    pass
-
- 

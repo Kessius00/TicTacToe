@@ -10,3 +10,91 @@ def takingturns(board):
         else:
             print('Player 2, move. ')
             pickcell(board,player2)
+
+
+
+
+            p1 = mutator(board, player1)
+            boardlayout(p1)
+
+
+
+            print('Player 2, move. ')
+            mutator(board, player2)
+            boardlayout(board2)
+    
+
+
+
+
+def playing(board):
+
+    player1, player2 = playerchoose()
+
+    boardlayout(board)
+
+    for i in range(9):
+        if i%2 == 0:
+            print('Player 1, do your move. ')
+            mutator(board, player1, (player1, player2))
+            
+        
+        else:
+            print('Player 2, move. ')
+            mutator(board, player2, (player1, player2))
+
+    
+
+playing(board2)
+
+
+
+
+
+def detector():
+    #should detect if there is a winner or not
+    pass
+
+ 
+ def mutator(board, player, players):
+    #mutates the board for the given cell
+
+    celindex, cell = boxchecker(board, players)
+
+    board[celindex] = player
+    
+    return board
+
+
+
+
+
+__________________________________
+
+
+
+
+
+
+def playing(board):
+
+    player1, player2 = playerchoose()
+
+    boardlayout(board)
+    i = 0
+    while i < 10: 
+        if i%2 == 0:
+            print('Player 1, do your move. ')
+            nb = boxchecker(board2, (player1, player2), player1)
+            boardlayout(nb)
+            
+        
+        else:
+            print('Player 2, move. ')
+            nb = boxchecker(board2, (player1, player2), player2)
+            boardlayout(nb)
+        
+        i=+1
+
+playing(board2)
+
