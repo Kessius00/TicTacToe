@@ -98,3 +98,20 @@ def playing(board):
 
 playing(board2)
 
+
+
+def detector(board,player):
+    #should detect if there is a winner or not
+
+    for i in board[1:]:
+        #opnieuw
+        if board[i] == board[i+1] and board[i] == board[i+2]:
+            print(f'{player} wins')
+            return 1
+        elif board[i] == board[i+3] and board[i] == board[i+6]:
+            print(f'{player} wins')
+            return 1
+        elif board[i] == board[i+4] and board[i] == board[i+8]:
+            print(f'{player} wins')
+            return 1
+    return 0

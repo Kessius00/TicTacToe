@@ -26,23 +26,23 @@ def playerchoose():
         player2 = 'X'
     return (player1, player2)
 
-player1, player2 = playerchoose()
+#player1, player2 = playerchoose()
 
 
 def pickcell(board):
     #asks and returns the cell the player wants to mutate
 
     #choosing the row with a while loop
-    row = input('Which row do you want to mutate? (1-3)')
+    row = input('Which row do you want to mutate? (1-3) ')
 
     while row.isnumeric() == False or int(row) not in range(1,4):
-        row = input('Which row do you want to mutate? (1-3)')
+        row = input('Which row do you want to mutate? (1-3) ')
     
     #choosing the column with a while loop
-    column = input('Which column do you want to mutate? (1-3)')
+    column = input('Which column do you want to mutate? (1-3) ')
 
     while column.isnumeric() == False or int(column) not in range(1,4):
-        column = input('Which column do you want to mutate? (1-3)')
+        column = input('Which column do you want to mutate? (1-3) ')
 
     row = int(row)
     column = int(column)
@@ -74,42 +74,54 @@ def boxchecker(board, players, player):
 
     return board
 
+def landoccupied(player, board):
+    #gives a percentage of the occupied boxes on the board of the player
+    x = board.count(player)
+    y = round((x*100)/(len(board)-1),1)
+    print(f'You have occupied {y} % of the board')
+
 def detector(board,player):
     #should detect if there is a winner or not
 
     for i in board[1:]:
-        #opnieuw
-        if board[i] == board[i+1] and board[i] == board[i+2]:
+        #horizontally
+        if i in (1,4,7) and board[i] == board[i+1] and board[i] == board[i+2]:
             print(f'{player} wins')
             return 1
-        elif board[i] == board[i+3] and board[i] == board[i+6]:
+        #vertically 
+        elif i in (1,2,3) and board[i] == board[i+3] and board[i] == board[i+6]:
             print(f'{player} wins')
             return 1
-        elif board[i] == board[i+4] and board[i] == board[i+8]:
+        #diagonally decreasing
+        elif i == 1 and board[i] == board[i+4] and board[i] == board[i+8]:
             print(f'{player} wins')
             return 1
+        #diagonally increasing
+        elif i == 3 and board[i] == board[i+2] and board[i] == board[i+4]:
+            print(f'{player}')
     return 0
 
 
+def turn(board, players, player):
+    #every action each player undergoes each turn
+    landoccupied(player, board)
+    nb = boxchecker(board, players, player)
+    boardlayout(nb)
+    detector(board, player)
 
 def playing(board):
-
+    #the total number of turns is chosen here, the game will be performed in this function
     player1, player2 = playerchoose()
-
     boardlayout(board)
     
-    for i in range(10): 
+    for i in range(10):
         if i%2 == 0:
             print('Player 1, do your move. ')
-            nb = boxchecker(board2, (player1, player2), player1)
-            boardlayout(nb)
-            detector(board2, player1)
+            turn(board, (player1, player2), player1)
         
         else:
             print('Player 2, move. ')
-            nb = boxchecker(board2, (player1, player2), player2)
-            boardlayout(nb)
-            detector(board2, player2)
+            turn(board, (player1, player2), player2)
         
 
 playing(board2)
